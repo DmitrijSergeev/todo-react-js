@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {useState} from "react";
+import {TodoItem} from "./components/todoItem/TodoItem.jsx";
 
-function App() {
-  const [count, setCount] = useState(0)
+export function App() {
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const initialTodos = [
+        {id: 1, text: 'Изучить React'},
+        {id: 2, text: 'Сделать TODO-APP'},
+        {id: 3, text: 'Сделать деплой'},
+    ]
+
+    const [todos, setTodos] = useState(initialTodos)
+
+    // const onDelete = (id) => {
+    //     setTodos( todos.filter(t => t.id !== id))
+    // }
+
+    const onDelete = (id) => {
+        setTodos( (prevTodos)=> prevTodos.filter( t => t.id !== id))
+    }
+
+    return (
+        <div>
+            <div>
+                <h1>MY_TODO</h1>
+                <div>Здесь будет компонент для добавления задач</div>
+                <div>
+                    {todos.map((todo) => (
+                        <TodoItem key={todo.id}
+                                  todo={todo}
+                                  onDelete={onDelete}
+                        />
+                    ) )}
+                </div>
+            </div>
+        </div>
+    )
 }
-
-export default App
