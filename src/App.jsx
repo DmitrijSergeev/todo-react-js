@@ -10,7 +10,30 @@ export function App() {
         {id: 3, text: 'Сделать деплой'},
     ]
 
+    const getInitialTheme = () => {
+        const savedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)".matches);
+
+        if (savedTheme) {
+            return savedTheme
+        }else if (prefersDark) {
+            return 'dark'
+        }else {
+            const hours = new Date().getHours();
+            return hours < 6 || hours >= 21 ? 'dark' : 'light'
+        }
+    }
+
     const [todos, setTodos] = useState(initialTodos)
+    const [theme, setTheme] = useState(getInitialTheme)
+
+    const toggleTheme = () => {
+        setTheme( (prevTheme)=> {
+            const newTheme = prevTheme === "light" ? "dark" : "light"
+            localStorage.setItem("theme", newTheme)
+            return newTheme;
+        })
+    }
 
     const onAdd = (text) => {
         const newTodo = {
@@ -25,7 +48,19 @@ export function App() {
     }
 
     return (
-        <div className={'flex flex-col'}>
+        <div data-theme={theme}
+            className={'flex flex-col min-h-screen ' +
+                'justify-center items-center bg-page-light dark:bg-page-dark'}
+        >
+
+           <di>
+               <div>
+                   <button onClick={toggleTheme}>
+                       <div>Переключение</div>
+                   </button>
+               </div>
+           </di>
+
             <div>
                 <h1>MY_TODO</h1>
                 <AddTodo
