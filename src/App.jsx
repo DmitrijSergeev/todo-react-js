@@ -1,6 +1,14 @@
 import {useState} from "react";
 import {TodoItem} from "./components/todoItem/TodoItem.jsx";
 import {AddTodo} from "./components/addTodo/AddTodo.jsx";
+import {Route, Routes} from "react-router";
+import {HomePage} from "./pages/homePage/HomePage.jsx";
+import {AboutPage} from "./pages/aboutPage/AboutPage.jsx";
+import {ErrorPage} from "./pages/errorPage/ErrorPage.jsx";
+import {AuthLayout} from "./pages/authLayout/AuthLayout.jsx";
+import {AppRoutes} from "./features/AppRoutes.js";
+import {LoginPage} from "./pages/authLayout/loginPage/LoginPage.jsx";
+import {RegisterPage} from "./pages/authLayout/registerPage/RegisterPage.jsx";
 
 export function App() {
 
@@ -48,10 +56,23 @@ export function App() {
     }
 
     return (
+
         <div data-theme={theme}
             className={'flex flex-col min-h-screen ' +
                 'justify-center items-center bg-page-light dark:bg-page-dark'}
         >
+
+            <Routes>
+                <Route index element={<HomePage/>}/>
+                <Route path={AppRoutes.ABOUT} element={<AboutPage/>}/>
+                <Route path={AppRoutes.AUTH} element={<AuthLayout/>}/>
+
+                <Route path={`${AppRoutes.AUTH}/${AppRoutes.LOGIN}`}
+                       element={<LoginPage />}/>
+                <Route path={`${AppRoutes.AUTH}/${AppRoutes.REG}`} element={<RegisterPage/>}/>
+
+                <Route path={AppRoutes.ERROR} element={<ErrorPage/>}/>
+            </Routes>
 
            <di>
                <div>
